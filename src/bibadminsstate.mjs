@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { server } from "./veduz/veduz.mjs";
 import { sleep } from "./veduz/util.mjs";
 import { search } from "./fbi.js";
-import { loadJSON, login, saveJSON } from "./storage.mjs";
+import { loadJSON, login, saveJSON } from "./veduz/storage.mjs";
 
 const useBibAdminsState = create((set, get) => ({
   display: [],
