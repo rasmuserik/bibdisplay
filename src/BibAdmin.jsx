@@ -1,5 +1,6 @@
 import React from "react";
 import useBibAdminsState from "./bibadminsstate.mjs";
+import { Carousel } from "./Carousel";
 
 function Setting({ label, value, onChange }) {
   return (
@@ -103,6 +104,9 @@ export function BibAdmin() {
                 />
                 <label htmlFor={`shuffle${i}`}>Shuffle</label>
               </div>
+              
+              <Carousel works={carousel.results} title={carousel.title} />
+                    {/*
               <div style={{ display: "flex", flexDirection: "row" }}>
                 {carousel?.results?.map((result, j) => (
                   <div
@@ -115,13 +119,10 @@ export function BibAdmin() {
                     }}
                   >
                     <img src={result.cover.detail} style={{ height: 100 }} />
-                    {/*
-                  <div>{result.titles?.full?.[0]}</div>
-                  <div>{result.creators?.map(o => o.display).join(" & ")}</div>  
-                  */}
                   </div>
                 ))}
               </div>
+                  */}
             </div>
           ))}
         </div>

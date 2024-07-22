@@ -3,13 +3,15 @@ import { server } from "./veduz/veduz.mjs";
 let currentAgency = "";
 let bearer = server.fbiToken(currentAgency);
 
-async function fbi(query, variables) {
+async function fbi(query, variables, {token, searchProfile} = {}) {
+  if(!token) token = await bearer;
+  if(!searchProfile) searchProfile = "default";
   let result = await (
-    await fetch("https://fbi-api.dbc.dk/SimpleSearch/graphql", {
+    await fetch(`https://fbi-api.dbc.dk/${searchProfile}/graphql`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        authorization: "bearer " + (await bearer),
+        authorization: "bearer " + token,
       },
       body: JSON.stringify({
         query,
