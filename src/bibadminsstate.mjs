@@ -13,6 +13,8 @@ const useBibAdminsState = create((set, get) => ({
     loggedIn: false,
     username: "",
     password: "",
+    token: "",
+    searchProfile: "",
   },
   fbiToken: "",
   actions: {
@@ -26,6 +28,14 @@ const useBibAdminsState = create((set, get) => ({
     },
     setWebdavServer: (webdavServer) =>
       set((state) => ({ ui: { ...state.ui, webdavServer } })),
+    setToken: async (token) => {
+      token = token.trim();
+      set((state) => ({ ui: { ...state.ui, token } }));
+      set({ fbiToken: token });
+    },
+    setSearchProfile: (searchProfile) => {
+      set((state) => ({ ui: { ...state.ui, searchProfile } }));
+    },
     setAgency: async (agency) => {
       agency = agency.trim();
       set((state) => ({ ui: { ...state.ui, agency } }));
@@ -60,7 +70,7 @@ const useBibAdminsState = create((set, get) => ({
       let prevDisplay = get().display?.[index];
       await sleep(500);
       if (get().display?.[index] !== prevDisplay) return;
-      let results = await search({ cql: query, agency: get().ui.agency });
+      let results = await search({ cql: query, agency: get().ui.agency, token: get().ui.token, searchProfile: get().ui.searchProfile });
       set((state) => {
         let display = [...state.display];
         if (display?.[index] === prevDisplay) display[index].results = results;

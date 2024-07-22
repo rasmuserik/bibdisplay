@@ -12,10 +12,12 @@ function Setting({ label, value, onChange }) {
 }
 
 export function BibAdmin() {
-  const { currentDisplay, agency, username, password, loggedIn } =
+  const { currentDisplay, token, agency, username, password, loggedIn, searchProfile } =
     useBibAdminsState((state) => state.ui);
   const {
     setCurrentDisplay,
+    setToken,
+    setSearchProfile,
     setAgency,
     addCarousel,
     toggleShuffle,
@@ -59,10 +61,22 @@ export function BibAdmin() {
         )}
         <div style={{ opacity: loggedIn ? 1 : 0.3 }}>
           <Setting
+            label="FBI Token"
+            value={token}
+            onChange={(e) => setToken(e.target.value)}
+          />
+          <Setting
+            label="Søgeprofil"
+            value={searchProfile}
+            onChange={(e) => setSearchProfile(e.target.value)}
+          />
+          {/* 
+          <Setting
             label="Agency"
             value={agency}
             onChange={(e) => setAgency(e.target.value)}
           />
+          */}
           <Setting
             label="Display name"
             value={currentDisplay}

@@ -70,7 +70,10 @@ export async function search({
   limit = 20,
   cql,
   agency = "",
+  token,
+  searchProfile,
 }) {
+  if(token) bearer = token;
   if (agency !== currentAgency) {
     bearer = server.fbiToken(agency);
     currentAgency = agency;
@@ -109,6 +112,7 @@ query Example_ComplexSearch($cql: String!, $offset: Int!, $limit: PaginationLimi
         offset: offset,
         limit: limit,
       },
+      {searchProfile}
     );
 
     result = result?.complexSearch?.works;

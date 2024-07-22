@@ -12,7 +12,7 @@ function resetTimer() {
 }
 setInterval(() => {
   if (Date.now() - timer > 1000 * 60 * 5) {
-    location.reload();
+    if(location.search !== "?admin") location.reload();
   }
 }, 500);
 function BibDisplay({ carousels }) {
