@@ -73,8 +73,9 @@ export async function search({
   token,
   searchProfile,
 }) {
-  if(token) bearer = token;
-  if (agency !== currentAgency) {
+  if(token) {
+    bearer = token
+  } else if (agency !== currentAgency) {
     bearer = server.fbiToken(agency);
     currentAgency = agency;
   }

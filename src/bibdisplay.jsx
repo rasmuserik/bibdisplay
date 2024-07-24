@@ -66,12 +66,17 @@ export async function bibdisplay() {
     <React.StrictMode>
       <style>
         {`
-body::-webkit-scrollbar {
-  display: none;
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+div {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
 }
 body {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
   background: black;
   color: white;
   font-family: sans-serif;
