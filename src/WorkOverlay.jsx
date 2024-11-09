@@ -48,11 +48,12 @@ export function WorkOverlay({ currentWork, hideWork }) {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                fontSize: 16,
+                fontSize: 20,
                 border: "1px solid #666",
               }}
             >
-              ⨉
+              ×
+              {/*⨉*/}
             </span>
           </div>
           <div
