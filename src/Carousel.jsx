@@ -2,13 +2,13 @@ import React from "react";
 
 function materialIcon(work) {
     let type = work?.materialTypes?.[0]?.materialTypeSpecific?.display
-    if(type.match(/lydbog/i)) return "audiobook.webp"
-    if(type.match(/e-bog/i) || type.match(/bog.*online/i)) return "ebook.webp"
-    if(type.match(/gameboy|nintendo|computerspil|playstation|psp|wii|xbox/i)) return "game.webp"
-    if(type.match(/film|tv-serie/i)) return "movies.webp"
-    if(type.match(/musik|node/i)) return "music.webp"
-    if(type.match(/bog/i)) return "book.webp"
-    return "articles.webp"
+    if(type.match(/lydbog/i)) return "icons/audio.webp"
+    if(type.match(/e-bog/i) || type.match(/bog.*online/i)) return "icons/books.webp"
+    if(type.match(/gameboy|nintendo|computerspil|playstation|psp|wii|xbox/i)) return "icons/play.webp"
+    if(type.match(/film|tv-serie/i)) return "icons/play.webp"
+    if(type.match(/musik|node/i)) return "icons/audio.webp"
+    if(type.match(/bog/i)) return "icons/books.webp"
+    return "icons/ebook.webp"
 }
 
 export function Carousel({ works, title, showWork }) {
@@ -53,7 +53,7 @@ export function Carousel({ works, title, showWork }) {
                         left: -window.innerWidth / 30,
                         bottom: -window.innerWidth / 30,
                         borderRadius: 5,
-                        background: "rgba(0,0,0,0.7)"
+                        background: "rgba(0,0,0,0)"
                     }}
                     />
               <img
