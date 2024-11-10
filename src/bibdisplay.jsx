@@ -17,6 +17,7 @@ setInterval(() => {
 }, 500);
 function BibDisplay({ carousels }) {
   const [currentWork, showWork] = useState(null);
+  console.log("carousels", carousels);
   return (
     <div
       style={{
@@ -35,6 +36,7 @@ function BibDisplay({ carousels }) {
           works={carousel.results}
           title={carousel.title}
           showWork={showWork}
+          showcase={carousel.showcase}
         />
       ))}
     </div>

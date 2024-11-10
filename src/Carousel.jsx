@@ -44,7 +44,9 @@ export function Carousel({ works, title, showWork, showcase }) {
               height: 290 *window.innerWidth/1000,
               marginRight: window.innerWidth/15,
               marginBottom: window.innerWidth/15,
-            }}>
+            }}
+            onClick={() => showcase.url && showWork(showcase)}
+            >
               <img src={showcase.image} 
               style={{
                 height: "100%",
@@ -55,14 +57,12 @@ export function Carousel({ works, title, showWork, showcase }) {
                 verticalAlign: "top",
                 display: "inline-block",
                 maxWidth: 290 * window.innerWidth/1000,
-                background: "white",
                 paddingLeft: 10,
                 paddingRight: 40,
                 fontFamily: "sans-serif",
                 overflow: "hidden",
               }}>
-                <h2>{showcase.title}</h2>
-                <div dangerouslySetInnerHTML={{ __html: marked(showcase.description || '', {
+                <div dangerouslySetInnerHTML={{ __html: marked(showcase.markdown || '', {
                   sanitize: true,
                   gfm: true
                 }) }} />

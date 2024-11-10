@@ -1,6 +1,6 @@
 import QRCode from "react-qr-code";
 import React from "react";
-
+import { marked } from "marked";
 export function WorkOverlay({ currentWork, hideWork }) {
     let work = currentWork;
     return (
@@ -66,27 +66,30 @@ export function WorkOverlay({ currentWork, hideWork }) {
               alignItems: "start",
             }}
           >
-            <img
-              src={work.cover.detail}
-              style={{
-                maxWidth: "25%",
-                outline: "1px solid white",
-                boxShadow: "10px 10px 30px 0px rgba(0,0,0,0.75)",
-              }}
-            />
+              <img
+                src={work.image || work?.cover?.detail}
+                style={{
+                  maxWidth: "25%",
+                  maxHeight: "80%",
+                  outline: "1px solid white",
+                  boxShadow: "10px 10px 30px 0px rgba(0,0,0,0.75)",
+                }}
+              />
             <div
               style={{
                 display: "inline-block",
                 maxWidth: "45%",
               }}
             >
-              <h1
-                style={{
-                  marginTop: 0,
-                }}
-              >
-                {work.titles?.full}
-              </h1>
+              {work.titles?.full && (
+                <h1
+                  style={{
+                    marginTop: 0,
+                  }}
+                >
+                  {work.titles?.full}
+                </h1>
+              )}
               {work?.creators?.length ? (
                 <h2>Af {work.creators.map((o) => o.display).join(" & ")}</h2>
               ) : null}
@@ -95,7 +98,15 @@ export function WorkOverlay({ currentWork, hideWork }) {
                   <em>{work.materialTypes[0]?.materialTypeSpecific?.display}</em>
                 </p>
               ) : null}
-              <div>{work?.abstract?.[0]}</div>
+              {work?.abstract?.[0] && ( 
+                <div>{work?.abstract?.[0]}</div>
+              )}
+              {work?.markdown && (
+                <div dangerouslySetInnerHTML={{ __html: marked(work.markdown, {
+                  sanitize: true,
+                  gfm: true
+                }) }} />
+              )}
   
               {/*<a href={"https://bib.ballerup.dk/work/work-of:" + work.pid}>test</a>*/}
             </div>
@@ -105,14 +116,16 @@ export function WorkOverlay({ currentWork, hideWork }) {
                 flexShrink: 0,
               }}
             >
+              {(work.url || work.pid) &&
               <QRCode
                 style={{
                   width: window.innerWidth * 0.1,
                   height: window.innerWidth * 0.1,
                 }}
-                value={"https://bib.ballerup.dk/work/work-of:" + work.pid}
+                value={ work.url || "https://bib.ballerup.dk/work/work-of:" + work.pid}
               />
-              Scan og lån
+              }
+              {work.pid && "Scan og lån"}
             </div>
           </div>
         </div>

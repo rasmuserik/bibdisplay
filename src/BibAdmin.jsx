@@ -89,6 +89,7 @@ export function BibAdmin() {
           <button onClick={addCarousel}>Tilføj Karrusel</button>
           {display.map((carousel, i) => (
             <div key={i}>
+              <hr style={{marginTop: 40, marginBottom: 40}}/>
               <div>
                 <label htmlFor={`title${i}`}>Overskrift:</label>
                 <input
@@ -156,40 +157,37 @@ export function BibAdmin() {
                       )}
                     </div>
                     <div>
-                      <label htmlFor={`showcaseTitle${i}`}>Titel:</label>
-                      <input
-                        id={`showcaseTitle${i}`}
-                        value={carousel.showcase.title || ''}
-                        onChange={(e) => setShowcase(i, { ...carousel.showcase, title: e.target.value })}
-                      />
-                    </div>
-                    <div>
                       <label htmlFor={`showcaseDesc${i}`}>Beskrivelse:</label>
                       <textarea
                         id={`showcaseDesc${i}`}
-                        value={carousel.showcase.description || ''}
-                        onChange={(e) => setShowcase(i, { ...carousel.showcase, description: e.target.value })}
+                        value={carousel.showcase.markdown || ''}
+                        onChange={(e) => setShowcase(i, { ...carousel.showcase, markdown: e.target.value })}
                         rows={4}
                         style={{ width: '95%', resize: 'vertical', fontFamily: 'sans-serif' }}
                       />
                     </div>
                     <div>
                       <label htmlFor={`showcaseUrl${i}`}>URL:</label>
-                      <input
-                        id={`showcaseUrl${i}`}
+                      {carousel.showcase.url && !/https?:\/\//i.test(carousel.showcase.url) && <div style={{color: "red", fontWeight: "bold"}}>Advarsel: normalt starter url'en med https:// eller lignende</div>}
+                        <input
+                          id={`showcaseUrl${i}`}
                         value={carousel.showcase.url || ''}
                         onChange={(e) => setShowcase(i, { ...carousel.showcase, url: e.target.value })}
                       />
                     </div>
                   </div>
                 ) : (
-                  <button onClick={() => setShowcase(i, { image: '', title: '', description: '', url: '' })}>
+                  <button onClick={() => setShowcase(i, { image: '', title: '', markdown: '', url: '' })}>
                     Tilføj Showcase
                   </button>
                 )}
               </div>
               
+              <div style={{marginTop: 20}}>Preview:</div>
+              <div style={{backgroundColor: "black", color: "white", overflow: "auto", borderRadius: 10}}>
               <Carousel works={carousel.results} title={carousel.title} showcase={carousel.showcase} /> 
+              </div>
+
             </div>
           ))}
         </div>
