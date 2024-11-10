@@ -11,7 +11,7 @@ function materialIcon(work) {
     return "icons/ebook.webp"
 }
 
-export function Carousel({ works, title, showWork }) {
+export function Carousel({ works, title, showWork, showcase }) {
     return (
       <>
         <h2
@@ -36,6 +36,36 @@ export function Carousel({ works, title, showWork }) {
             paddingLeft: window.innerWidth/30,
           }}
         >
+          {showcase && (
+            <div style={{
+              display: "inline-block",
+              position: "relative",
+              height: 290 *window.innerWidth/1000,
+              marginRight: window.innerWidth/15,
+              marginBottom: window.innerWidth/15,
+              display: 'inline-block',
+            }}>
+              <img src={showcase.image} 
+              style={{
+                height: "100%",
+
+              }}
+              />
+              <div style={{
+                verticalAlign: "top",
+                display: "inline-block",
+                maxWidth: 290 * window.innerWidth/1000,
+                background: "white",
+                paddingLeft: 10,
+                paddingRight: 40,
+                fontFamily: "sans-serif",
+                overflow: "hidden",
+              }}>
+                <h2>{showcase.title}</h2>
+                <p>{showcase.description}</p>
+              </div>
+            </div>
+          )}
           {works &&
             works.map((work) => (
                 <div style={{

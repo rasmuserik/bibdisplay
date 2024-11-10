@@ -165,10 +165,12 @@ export function BibAdmin() {
                     </div>
                     <div>
                       <label htmlFor={`showcaseDesc${i}`}>Beskrivelse:</label>
-                      <input
+                      <textarea
                         id={`showcaseDesc${i}`}
                         value={carousel.showcase.description || ''}
                         onChange={(e) => setShowcase(i, { ...carousel.showcase, description: e.target.value })}
+                        rows={4}
+                        style={{ width: '95%', resize: 'vertical', fontFamily: 'sans-serif' }}
                       />
                     </div>
                     <div>
@@ -187,7 +189,7 @@ export function BibAdmin() {
                 )}
               </div>
               
-              <Carousel works={carousel.results} title={carousel.title} />
+              <Carousel works={carousel.results} title={carousel.title} showcase={carousel.showcase} /> 
             </div>
           ))}
         </div>

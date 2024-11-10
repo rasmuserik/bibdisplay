@@ -8,6 +8,7 @@ const useBibAdminsState = create((set, get) => {
   // Try to login on startup using stored credentials
   const username = localStorage.getItem("bibadmin-username") || "";
   const password = localStorage.getItem("bibadmin-password") || "";
+  const currentDisplay = localStorage.getItem("bibadmin-currentDisplay") || "";
   if (username && password) {
     login(username, password).then(async loggedIn => {
       console.log("loggedIn", loggedIn);
@@ -15,6 +16,7 @@ const useBibAdminsState = create((set, get) => {
       if (!loggedIn && await login(username, password)) {
         set(state => ({ ui: { ...state.ui, loggedIn: true } }));
       }
+      syncFromServer(currentDisplay, set, get);
     });
   }
 
@@ -23,7 +25,7 @@ const useBibAdminsState = create((set, get) => {
     ui: {
       webdavServer: "",
       agency: "715700", 
-      currentDisplay: "",
+      currentDisplay,
       loggedIn: false,
       username,
       password,
@@ -40,6 +42,7 @@ const useBibAdminsState = create((set, get) => {
         let prev = get().ui;
         if (prev.username === username && prev.password === password) {
           set((state) => ({ ui: { ...state.ui, loggedIn } }));
+          syncFromServer(get().ui.currentDisplay, set, get);
         }
       },
       setWebdavServer: (webdavServer) =>
@@ -103,6 +106,7 @@ const useBibAdminsState = create((set, get) => {
         syncToServer(set, get);
       },
       setCurrentDisplay: (currentDisplay) => {
+        localStorage.setItem("bibadmin-currentDisplay", currentDisplay);
         set((state) => ({ ui: { ...state.ui, currentDisplay } }));
         syncFromServer(currentDisplay, set, get);
       },
