@@ -68,6 +68,14 @@ const useBibAdminsState = create((set, get) => {
         });
         syncToServer(set, get);
       },
+      setShowcase: (index, showcase) => {
+        set((state) => {
+          let display = [...state.display];
+          display[index].showcase = showcase;
+          return { display };
+        });
+        syncToServer(set, get);
+      },
       toggleShuffle: (index) => {
         set((state) => {
           let display = [...state.display];

@@ -24,9 +24,11 @@ export function BibAdmin() {
     setTitle,
     setQuery,
     setUsernamePassword,
+    setShowcase,
   } = useBibAdminsState((state) => state.actions);
   const fbiToken = useBibAdminsState((state) => state.fbiToken);
   const display = useBibAdminsState((state) => state.display);
+  console.log("setShowcase", setShowcase);
 
   return (
     <>
@@ -105,7 +107,6 @@ export function BibAdmin() {
               <div
                 style={{
                   textAlign: "left",
-                  // row
                   display: "flex",
                   flexDirection: "row",
                 }}
@@ -119,25 +120,53 @@ export function BibAdmin() {
                 />
                 <label htmlFor={`shuffle${i}`}>Shuffle</label>
               </div>
+
+              <div style={{ marginTop: "10px" }}>
+                {carousel.showcase ? (
+                  <div style={{outline: "1px solid black", margin: 0, padding: 10, borderRadius: 10}}>
+                    <h2>Showcase</h2>
+                    <button onClick={() => setShowcase(i, null)}>Fjern Showcase</button>
+                    <div>
+                      <label htmlFor={`showcaseImage${i}`}>Billede:</label>
+                      <input
+                        id={`showcaseImage${i}`}
+                        value={carousel.showcase.image || ''}
+                        onChange={(e) => setShowcase(i, { ...carousel.showcase, image: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor={`showcaseTitle${i}`}>Titel:</label>
+                      <input
+                        id={`showcaseTitle${i}`}
+                        value={carousel.showcase.title || ''}
+                        onChange={(e) => setShowcase(i, { ...carousel.showcase, title: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor={`showcaseDesc${i}`}>Beskrivelse:</label>
+                      <input
+                        id={`showcaseDesc${i}`}
+                        value={carousel.showcase.description || ''}
+                        onChange={(e) => setShowcase(i, { ...carousel.showcase, description: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor={`showcaseUrl${i}`}>URL:</label>
+                      <input
+                        id={`showcaseUrl${i}`}
+                        value={carousel.showcase.url || ''}
+                        onChange={(e) => setShowcase(i, { ...carousel.showcase, url: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <button onClick={() => setShowcase(i, { image: '', title: '', description: '', url: '' })}>
+                    Tilføj Showcase
+                  </button>
+                )}
+              </div>
               
               <Carousel works={carousel.results} title={carousel.title} />
-                    {/*
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                {carousel?.results?.map((result, j) => (
-                  <div
-                    key={j}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      width: 200,
-                      flex: 0,
-                    }}
-                  >
-                    <img src={result.cover.detail} style={{ height: 100 }} />
-                  </div>
-                ))}
-              </div>
-                  */}
             </div>
           ))}
         </div>
