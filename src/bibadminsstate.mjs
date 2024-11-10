@@ -4,95 +4,99 @@ import { sleep } from "./veduz/util.mjs";
 import { search } from "./fbi.js";
 import { loadJSON, login, saveJSON } from "./veduz/storage.mjs";
 
-const useBibAdminsState = create((set, get) => ({
-  display: [],
-  ui: {
-    webdavServer: "",
-    agency: "715700",
-    currentDisplay: "",
-    loggedIn: false,
-    username: "",
-    password: "",
-    token: "",
-    searchProfile: "",
-  },
-  fbiToken: "",
-  actions: {
-    setUsernamePassword: async (username, password) => {
-      set((state) => ({ ui: { ...state.ui, username, password } }));
-      const loggedIn = await login(username, password);
-      let prev = get().ui;
-      if (prev.username === username && prev.password === password) {
-        set((state) => ({ ui: { ...state.ui, loggedIn } }));
-      }
+const useBibAdminsState = create((set, get) => {
+  return ({
+    display: [],
+    ui: {
+      webdavServer: "",
+      agency: "715700",
+      currentDisplay: "",
+      loggedIn: false,
+      username: localStorage.getItem("bibadmin-username") || "",
+      password: localStorage.getItem("bibadmin-password") || "",
+      token: "",
+      searchProfile: "",
     },
-    setWebdavServer: (webdavServer) =>
-      set((state) => ({ ui: { ...state.ui, webdavServer } })),
-    setToken: async (token) => {
-      token = token.trim();
-      set((state) => ({ ui: { ...state.ui, token } }));
-      set({ fbiToken: token });
-    },
-    setSearchProfile: (searchProfile) => {
-      set((state) => ({ ui: { ...state.ui, searchProfile } }));
-    },
-    setAgency: async (agency) => {
-      agency = agency.trim();
-      set((state) => ({ ui: { ...state.ui, agency } }));
-      let token = "";
-      if (agency.length === 6) token = await server.fbiToken({ agency });
-      if (agency.length === 0) token = await server.fbiToken();
-      set({ fbiToken: token });
-    },
-    setTitle(index, title) {
-      set((state) => {
-        let display = [...state.display];
-        display[index].title = title;
-        return { display };
-      });
-      syncToServer(set, get);
-    },
-    toggleShuffle: (index) => {
-      set((state) => {
-        let display = [...state.display];
-        display[index].shuffle = !display[index].shuffle;
-        return { display };
-      });
-      syncToServer(set, get);
-    },
-    setQuery: async (index, query) => {
-      set((state) => {
-        let display = [...state.display];
-        display[index].query = query;
-        return { display };
-      });
+    fbiToken: "",
+    actions: {
+      setUsernamePassword: async (username, password) => {
+        set((state) => ({ ui: { ...state.ui, username, password } }));
+        localStorage.setItem("bibadmin-username", username);
+        localStorage.setItem("bibadmin-password", password);
+        const loggedIn = await login(username, password);
+        let prev = get().ui;
+        if (prev.username === username && prev.password === password) {
+          set((state) => ({ ui: { ...state.ui, loggedIn } }));
+        }
+      },
+      setWebdavServer: (webdavServer) =>
+        set((state) => ({ ui: { ...state.ui, webdavServer } })),
+      setToken: async (token) => {
+        token = token.trim();
+        set((state) => ({ ui: { ...state.ui, token } }));
+        set({ fbiToken: token });
+      },
+      setSearchProfile: (searchProfile) => {
+        set((state) => ({ ui: { ...state.ui, searchProfile } }));
+      },
+      setAgency: async (agency) => {
+        agency = agency.trim();
+        set((state) => ({ ui: { ...state.ui, agency } }));
+        let token = "";
+        if (agency.length === 6) token = await server.fbiToken({ agency });
+        if (agency.length === 0) token = await server.fbiToken();
+        set({ fbiToken: token });
+      },
+      setTitle(index, title) {
+        set((state) => {
+          let display = [...state.display];
+          display[index].title = title;
+          return { display };
+        });
+        syncToServer(set, get);
+      },
+      toggleShuffle: (index) => {
+        set((state) => {
+          let display = [...state.display];
+          display[index].shuffle = !display[index].shuffle;
+          return { display };
+        });
+        syncToServer(set, get);
+      },
+      setQuery: async (index, query) => {
+        set((state) => {
+          let display = [...state.display];
+          display[index].query = query;
+          return { display };
+        });
 
-      let prevDisplay = get().display?.[index];
-      await sleep(500);
-      if (get().display?.[index] !== prevDisplay) return;
-      let results = await search({ cql: query, agency: get().ui.agency, token: get().ui.token, searchProfile: get().ui.searchProfile });
-      set((state) => {
-        let display = [...state.display];
-        if (display?.[index] === prevDisplay) display[index].results = results;
-        return { display };
-      });
-      syncToServer(set, get);
+        let prevDisplay = get().display?.[index];
+        await sleep(500);
+        if (get().display?.[index] !== prevDisplay) return;
+        let results = await search({ cql: query, agency: get().ui.agency, token: get().ui.token, searchProfile: get().ui.searchProfile });
+        set((state) => {
+          let display = [...state.display];
+          if (display?.[index] === prevDisplay) display[index].results = results;
+          return { display };
+        });
+        syncToServer(set, get);
+      },
+      setCurrentDisplay: (currentDisplay) => {
+        set((state) => ({ ui: { ...state.ui, currentDisplay } }));
+        syncFromServer(currentDisplay, set, get);
+      },
+      addCarousel: () => {
+        set((state) => ({
+          display: [
+            ...state.display,
+            { title: "", query: "", shuffle: false, results: [], maxResults: 20 },
+          ],
+        }));
+        syncToServer(set, get);
+      },
     },
-    setCurrentDisplay: (currentDisplay) => {
-      set((state) => ({ ui: { ...state.ui, currentDisplay } }));
-      syncFromServer(currentDisplay, set, get);
-    },
-    addCarousel: () => {
-      set((state) => ({
-        display: [
-          ...state.display,
-          { title: "", query: "", shuffle: false, results: [], maxResults: 20 },
-        ],
-      }));
-      syncToServer(set, get);
-    },
-  },
-}));
+  });
+});
 
 async function syncToServer(set, get) {
   let display = get().display;
