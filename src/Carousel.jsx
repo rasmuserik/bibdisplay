@@ -1,4 +1,5 @@
 import React from "react";
+import { marked } from "marked";
 
 function materialIcon(work) {
     let type = work?.materialTypes?.[0]?.materialTypeSpecific?.display
@@ -43,7 +44,6 @@ export function Carousel({ works, title, showWork, showcase }) {
               height: 290 *window.innerWidth/1000,
               marginRight: window.innerWidth/15,
               marginBottom: window.innerWidth/15,
-              display: 'inline-block',
             }}>
               <img src={showcase.image} 
               style={{
@@ -62,7 +62,10 @@ export function Carousel({ works, title, showWork, showcase }) {
                 overflow: "hidden",
               }}>
                 <h2>{showcase.title}</h2>
-                <p>{showcase.description}</p>
+                <div dangerouslySetInnerHTML={{ __html: marked(showcase.description || '', {
+                  sanitize: true,
+                  gfm: true
+                }) }} />
               </div>
             </div>
           )}
