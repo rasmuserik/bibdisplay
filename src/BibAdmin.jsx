@@ -49,7 +49,8 @@ export function BibAdmin() {
           onChange={(e) => setUsernamePassword(username, e.target.value)}
         />
         {loggedIn ? (
-          "Logget ind"
+          <div>Logget ind, og <b>HUSKER brugenavn/kode</b>, så <b style={{color: "red"}}>husk at logge ud</b> (fjern koden herover).</div>
+
         ) : (
           <div>
             <b style={{ color: "red" }}>

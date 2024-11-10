@@ -5,15 +5,28 @@ import { search } from "./fbi.js";
 import { loadJSON, login, saveJSON } from "./veduz/storage.mjs";
 
 const useBibAdminsState = create((set, get) => {
+  // Try to login on startup using stored credentials
+  const username = localStorage.getItem("bibadmin-username") || "";
+  const password = localStorage.getItem("bibadmin-password") || "";
+  if (username && password) {
+    login(username, password).then(async loggedIn => {
+      console.log("loggedIn", loggedIn);
+      set(state => ({ ui: { ...state.ui, loggedIn } }));
+      if (!loggedIn && await login(username, password)) {
+        set(state => ({ ui: { ...state.ui, loggedIn: true } }));
+      }
+    });
+  }
+
   return ({
     display: [],
     ui: {
       webdavServer: "",
-      agency: "715700",
+      agency: "715700", 
       currentDisplay: "",
       loggedIn: false,
-      username: localStorage.getItem("bibadmin-username") || "",
-      password: localStorage.getItem("bibadmin-password") || "",
+      username,
+      password,
       token: "",
       searchProfile: "",
     },
