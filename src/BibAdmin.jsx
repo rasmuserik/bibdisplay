@@ -1,6 +1,7 @@
 import React from "react";
 import useBibAdminsState from "./bibadminsstate.mjs";
 import { Carousel } from "./Carousel";
+import { saveBinary } from "./veduz/storage.mjs";
 
 function Setting({ label, value, onChange }) {
   return (
@@ -130,9 +131,29 @@ export function BibAdmin() {
                       <label htmlFor={`showcaseImage${i}`}>Billede:</label>
                       <input
                         id={`showcaseImage${i}`}
-                        value={carousel.showcase.image || ''}
-                        onChange={(e) => setShowcase(i, { ...carousel.showcase, image: e.target.value })}
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+                          if (file) {
+                            try {
+                              const arrayBuffer = await file.arrayBuffer();
+                              const url = await saveBinary(arrayBuffer);
+                              setShowcase(i, { ...carousel.showcase, image: url });
+                            } catch (error) {
+                              console.error('Failed to upload image:', error);
+                              alert('Failed to upload image');
+                            }
+                          }
+                        }}
                       />
+                      {carousel.showcase.image && (
+                        <img 
+                          src={carousel.showcase.image} 
+                          alt="Preview" 
+                          style={{ maxWidth: '200px', marginTop: '10px' }} 
+                        />
+                      )}
                     </div>
                     <div>
                       <label htmlFor={`showcaseTitle${i}`}>Titel:</label>
