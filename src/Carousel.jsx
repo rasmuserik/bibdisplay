@@ -16,15 +16,6 @@ function materialIcon(work) {
     return "icons/magasin.webp"
 }
 
-// Podcast
-// Fysisk bog books
-// Film play
-// E-bog
-// Lydbog
-// Magasin
-// Avis
-// Artikel
-
 export function Carousel({ works, title, showWork, showcase }) {
     return (
       <>

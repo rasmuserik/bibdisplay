@@ -34,6 +34,13 @@ const useBibAdminsState = create((set, get) => {
     },
     fbiToken: "",
     actions: {
+      swapCarousel: (index1, index2) => {
+        set((state) => {
+          let display = [...state.display];
+          [display[index1], display[index2]] = [display[index2], display[index1]];
+          return { display };
+        });
+      },
       setUsernamePassword: async (username, password) => {
         set((state) => ({ ui: { ...state.ui, username, password } }));
         localStorage.setItem("bibadmin-username", username);

@@ -16,6 +16,7 @@ export function BibAdmin() {
   const { currentDisplay, token, agency, username, password, loggedIn, searchProfile } =
     useBibAdminsState((state) => state.ui);
   const {
+    swapCarousel,
     setCurrentDisplay,
     setToken,
     setSearchProfile,
@@ -90,11 +91,11 @@ export function BibAdmin() {
           {display.map((carousel, i) => (
             <div key={i}>
               <hr style={{marginTop: 40, marginBottom: 40}}/>
-                <div>
-                </div>
-                  {i < display.length - 1 && <span>⬇️</span> }
+                <div style={{fontSize: 32}}>
+                  {i < display.length - 1 && <span onClick={() => swapCarousel(i, i+1)}>⬇️</span> }
                   {" "}
-                  {i > 0 && <span>⬆️</span>}
+                  {i > 0 && <span onClick={() => swapCarousel(i, i-1)}>⬆️</span>}
+                </div>
               <div>
                 <label htmlFor={`title${i}`}>Overskrift:</label>
                 <input
