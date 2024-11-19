@@ -129,7 +129,12 @@ export function BibAdmin() {
                     <h2>Showcase</h2>
                     <button onClick={() => setShowcase(i, null)}>Fjern Showcase</button>
                     <div>
-                      <label htmlFor={`showcaseImage${i}`}>Billede:</label>
+                      <label htmlFor={`showcaseImage${i}`}>Billede (url eller uploadet billede):</label>
+                      <input 
+                        type="text" 
+                        value={carousel.showcase?.image && !carousel.showcase?.image?.startsWith('https://webdav.bibdata.dk') ? carousel.showcase.image : ''} 
+                        onChange={(e) => setShowcase(i, { ...carousel.showcase, image: e.target.value })} 
+                      />
                       <input
                         id={`showcaseImage${i}`}
                         type="file"
