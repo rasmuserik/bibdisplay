@@ -33,6 +33,7 @@ export function Carousel({ works, title, showWork, showcase }) {
             display: "block",
             whiteSpace: "nowrap",
             overflowX: "auto",
+            verticalAlign: "top",
             scrollbarWidth: "none",
             paddingLeft: window.innerWidth/30,
           }}
@@ -41,24 +42,34 @@ export function Carousel({ works, title, showWork, showcase }) {
             <div style={{
               display: "inline-block",
               position: "relative",
-              height: 290 *window.innerWidth/1000,
               marginRight: window.innerWidth/15,
               marginBottom: window.innerWidth/15,
+              verticalAlign: "top",
+              marginTop: 0,
+              paddingTop: 0,
             }}
+            className="showcase"
             onClick={() => showcase.url && showWork(showcase)}
             >
-              <img src={showcase.image} 
+              {showcase.image && <img src={showcase.image} 
               style={{
-                height: "100%",
-
+                height: 290 *window.innerWidth/1000,
               }}
-              />
+              />} 
+              <style>
+                {`
+                h1, h2, h3, h4, h5, h6 {
+                  margin-top: 0;
+                  padding-top: 0;
+                }
+`}
+              </style>
               <div style={{
                 verticalAlign: "top",
                 display: "inline-block",
-                maxWidth: 290 * window.innerWidth/1000,
-                paddingLeft: 10,
-                paddingRight: 40,
+                maxWidth: "60%",
+                marginLeft: 40,
+                marginRight: 40,
                 fontFamily: "sans-serif",
                 whiteSpace: "normal",
               }}
