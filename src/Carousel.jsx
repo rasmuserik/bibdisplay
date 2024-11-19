@@ -4,13 +4,26 @@ import { marked } from "marked";
 function materialIcon(work) {
     let type = work?.materialTypes?.[0]?.materialTypeSpecific?.display
     if(type.match(/lydbog/i)) return "icons/audio.webp"
-    if(type.match(/e-bog/i) || type.match(/bog.*online/i)) return "icons/books.webp"
+    if(type.match(/e-bog/i) || type.match(/bog.*online/i)) return "icons/ebook.webp"
     if(type.match(/gameboy|nintendo|computerspil|playstation|psp|wii|xbox/i)) return "icons/play.webp"
     if(type.match(/film|tv-serie/i)) return "icons/play.webp"
     if(type.match(/musik|node/i)) return "icons/audio.webp"
     if(type.match(/bog/i)) return "icons/books.webp"
-    return "icons/ebook.webp"
+    if(type.match(/podcast/i)) return "icons/podcast.webp"
+    if(type.match(/magasin/i)) return "icons/magasin.webp"
+    if(type.match(/avis/i)) return "icons/newspaper.webp"
+    if(type.match(/artikel/i)) return "icons/document.webp"
+    return "icons/magasin.webp"
 }
+
+// Podcast
+// Fysisk bog books
+// Film play
+// E-bog
+// Lydbog
+// Magasin
+// Avis
+// Artikel
 
 export function Carousel({ works, title, showWork, showcase }) {
     return (
