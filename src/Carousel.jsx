@@ -60,12 +60,12 @@ export function Carousel({ works, title, showWork, showcase }) {
                 paddingLeft: 10,
                 paddingRight: 40,
                 fontFamily: "sans-serif",
-                overflow: "hidden",
-              }}>
-                <div dangerouslySetInnerHTML={{ __html: marked(showcase.markdown || '', {
+                whiteSpace: "normal",
+              }}
+                dangerouslySetInnerHTML={{ __html: marked(showcase.markdown || '', {
                   sanitize: true,
                   gfm: true
-                }) }} />
+                }) }}>
               </div>
             </div>
           )}
