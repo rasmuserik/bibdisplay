@@ -30,7 +30,6 @@ export function BibAdmin() {
   } = useBibAdminsState((state) => state.actions);
   const fbiToken = useBibAdminsState((state) => state.fbiToken);
   const display = useBibAdminsState((state) => state.display);
-  console.log("setShowcase", setShowcase);
 
   return (
     <>
@@ -112,6 +111,8 @@ export function BibAdmin() {
                   onChange={(e) => setQuery(i, e.target.value)}
                 />
               </div>
+
+
               <div
                 style={{
                   textAlign: "left",
@@ -186,6 +187,29 @@ export function BibAdmin() {
                         onChange={(e) => setShowcase(i, { ...carousel.showcase, url: e.target.value })}
                       />
                     </div>
+              <div>
+                <label htmlFor={`date${i}`}>Udløbsdato:</label>
+                <div style={{display: "flex", flexDirection: "row"}}>
+                  <input
+                    type="checkbox"
+                    id={`expires${i}`}
+                    checked={!!carousel.showcase.expires}
+                    onChange={(e) => setShowcase(i, { ...carousel.showcase, expires: e.target.checked }) }
+                  />
+                <input
+                  id={`date${i}`}
+                  type="date"
+                  value={carousel.showcase.expirydate || ''}
+                  onChange={(e) => {
+                    console.log("expiry", e.target.value,
+                      carousel.showcase.expires,
+                      carousel.showcase.expirydate
+                    );
+                    setShowcase(i, { ...carousel.showcase, expirydate: e.target.value })}}
+
+                />
+                </div>
+              </div>
                   </div>
                 ) : (
                   <button onClick={() => setShowcase(i, { image: '', title: '', markdown: '', url: '' })}>

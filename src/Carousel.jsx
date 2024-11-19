@@ -42,7 +42,7 @@ export function Carousel({ works, title, showWork, showcase }) {
             paddingLeft: window.innerWidth/30,
           }}
         >
-          {showcase && (
+          {showcase && (!showcase.expires || showcase.expirydate >= new Date().toISOString().split('T')[0]) && (
             <div style={{
               display: "inline-block",
               position: "relative",
