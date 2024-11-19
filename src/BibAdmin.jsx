@@ -90,6 +90,11 @@ export function BibAdmin() {
           {display.map((carousel, i) => (
             <div key={i}>
               <hr style={{marginTop: 40, marginBottom: 40}}/>
+                <div>
+                </div>
+                  {i < display.length - 1 && <span>⬇️</span> }
+                  {" "}
+                  {i > 0 && <span>⬆️</span>}
               <div>
                 <label htmlFor={`title${i}`}>Overskrift:</label>
                 <input
