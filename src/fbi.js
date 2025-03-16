@@ -83,7 +83,7 @@ export async function search({
   if (cql) {
     result = await fbi(
       `
-query Example_ComplexSearch($cql: String!, $offset: Int!, $limit: PaginationLimit!, $filters: ComplexSearchFilters!, $sort: [Sort!]) {
+query Example_ComplexSearch($cql: String!, $offset: Int!, $limit: PaginationLimitScalar!, $filters: ComplexSearchFiltersInput!, $sort: [SortInput!]) {
   complexSearch(cql: $cql, filters: $filters) {
     hitcount
     errorMessage
