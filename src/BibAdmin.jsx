@@ -247,10 +247,11 @@ export function BibAdmin() {
                     </div>
                     <div>
                       <label htmlFor={`date${i}`}>Udløbsdato:</label>
-                      <div style={{ display: "flex", flexDirection: "row" }}>
+                      <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
                         <input
                           type="checkbox"
                           id={`expires${i}`}
+                          style={{ width: "auto" }}
                           checked={!!carousel.showcase.expires}
                           onChange={(e) =>
                             setShowcase(i, {
@@ -262,6 +263,7 @@ export function BibAdmin() {
                         <input
                           id={`date${i}`}
                           type="date"
+                          style={{ width: "auto" }}
                           value={carousel.showcase.expirydate || ""}
                           onChange={(e) => {
                             console.log(
@@ -275,6 +277,23 @@ export function BibAdmin() {
                               expirydate: e.target.value,
                             });
                           }}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor={`fullwidth${i}`}>Fuld bredde:</label>
+                      <div style={{ display: "flex", flexDirection: "row" }}>
+                        <input
+                          type="checkbox"
+                          id={`fullwidth${i}`}
+                          style={{ width: "auto" }}
+                          checked={!!carousel.showcase.fullwidth}
+                          onChange={(e) =>
+                            setShowcase(i, {
+                              ...carousel.showcase,
+                              fullwidth: e.target.checked,
+                            })
+                          }
                         />
                       </div>
                     </div>
