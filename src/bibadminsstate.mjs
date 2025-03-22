@@ -144,6 +144,14 @@ const useBibAdminsState = create((set, get) => {
         }));
         syncToServer(set, get);
       },
+      deleteCarousel: (index) => {
+        set((state) => {
+          const newDisplay = [...state.display];
+          newDisplay.splice(index, 1);
+          return { display: newDisplay };
+        });
+        syncToServer(set, get);
+      },
     },
   };
 });

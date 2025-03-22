@@ -29,6 +29,7 @@ export function BibAdmin() {
     setSearchProfile,
     setAgency,
     addCarousel,
+    deleteCarousel,
     toggleShuffle,
     setTitle,
     setQuery,
@@ -114,7 +115,17 @@ export function BibAdmin() {
                 )}{" "}
                 {i > 0 && (
                   <span onClick={() => swapCarousel(i, i - 1)}>⬆️</span>
-                )}
+                )}{" "}
+                <span 
+                  onClick={() => {
+                    if (window.confirm("Er du sikker på at du vil slette denne karrusel?")) {
+                      deleteCarousel(i);
+                    }
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  🗑️
+                </span>
               </div>
               <div>
                 <label htmlFor={`title${i}`}>Overskrift:</label>
