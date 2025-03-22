@@ -126,6 +126,9 @@ const useBibAdminsState = create((set, get) => {
         set((state) => ({ ui: { ...state.ui, currentDisplay } }));
         syncFromServer(currentDisplay, set, get);
       },
+      loadCurrentDisplay: () => {
+        syncFromServer(get().ui.currentDisplay, set, get);
+      },
       addCarousel: () => {
         set((state) => ({
           display: [

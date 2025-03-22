@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useBibAdminsState from "./bibadminsstate.mjs";
 import { Carousel } from "./Carousel";
 import { saveBinary } from "./veduz/storage.mjs";
@@ -34,9 +34,17 @@ export function BibAdmin() {
     setQuery,
     setUsernamePassword,
     setShowcase,
+    loadCurrentDisplay,
   } = useBibAdminsState((state) => state.actions);
   const fbiToken = useBibAdminsState((state) => state.fbiToken);
   const display = useBibAdminsState((state) => state.display);
+
+  // Load display data when component mounts
+  useEffect(() => {
+    if (currentDisplay) {
+      loadCurrentDisplay();
+    }
+  }, [currentDisplay, loadCurrentDisplay]);
 
   return (
     <>
