@@ -123,7 +123,9 @@ export function WorkOverlay({ currentWork, hideWork }) {
                   width: window.innerWidth * 0.1,
                   height: window.innerWidth * 0.1,
                 }}
-                value={ work.url || "https://bib.ballerup.dk/work/work-of:" + work.pid}
+                value={ 'https://api.veduz.com/v3/redirect/'
+                  + btoa("BIBDISPLAY_" + location.search.slice(1) + " " + (work.url || "https://bib.ballerup.dk/work/work-of:" + work.pid))
+                }
               />
               }
               {work.pid && "Scan og lån"}
