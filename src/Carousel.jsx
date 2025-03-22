@@ -90,6 +90,7 @@ export function Carousel({ works, title, showWork, showcase }) {
                   __html: marked(showcase.markdown || "", {
                     sanitize: true,
                     gfm: true,
+                    breaks: true
                   }),
                 }}
               ></div>

@@ -73,7 +73,7 @@ export function BibAdmin() {
             serveren.
           </div>
         )}
-        <div style={{ opacity: loggedIn ? 1 : 0.3 }}>
+        <div style={{ opacity: loggedIn ? 1 : 0.6, color: "#900" }}>
           <Setting
             label="FBI Token"
             value={token}
