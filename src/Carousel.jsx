@@ -56,6 +56,8 @@ export function Carousel({ works, title, showWork, showcase }) {
                 verticalAlign: "top",
                 marginTop: 0,
                 paddingTop: 0,
+                width: showcase.fullwidth ? "95%" : "auto",
+                maxWidth: "95%"
               }}
               className="showcase"
               onClick={() => showcase.url && showWork(showcase)}
