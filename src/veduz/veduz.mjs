@@ -18,3 +18,4 @@ function rpc(server) {
 }
 
 export let server = rpc("https://api.veduz.com/v3")
+window.veduz = server;
