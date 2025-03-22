@@ -1,5 +1,9 @@
 import {encode, decode} from "cbor-x";
-let session = btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(18))));
+let session = localStorage.getItem("veduz_session");
+if (!session) { 
+  session = btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(18))));
+  localStorage.setItem("veduz_session", session);
+}
 function rpc(server) {
   return new Proxy({}, {
     get: (target, fnName) => async (...args) =>
