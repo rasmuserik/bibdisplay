@@ -3,9 +3,9 @@ import { server } from "./veduz/veduz.mjs";
 let currentAgency = "";
 let bearer = server.fbiToken(currentAgency);
 
-async function fbi(query, variables, {token, searchProfile} = {}) {
-  if(!token) token = await bearer;
-  if(!searchProfile) searchProfile = "default";
+async function fbi(query, variables, { token, searchProfile } = {}) {
+  if (!token) token = await bearer;
+  if (!searchProfile) searchProfile = "default";
   let result = await (
     await fetch(`https://fbi-api.dbc.dk/${searchProfile}/graphql`, {
       method: "POST",
@@ -73,8 +73,8 @@ export async function search({
   token,
   searchProfile,
 }) {
-  if(token) {
-    bearer = token
+  if (token) {
+    bearer = token;
   } else if (agency !== currentAgency) {
     bearer = server.fbiToken(agency);
     currentAgency = agency;
@@ -113,7 +113,7 @@ query Example_ComplexSearch($cql: String!, $offset: Int!, $limit: PaginationLimi
         offset: offset,
         limit: limit,
       },
-      {searchProfile}
+      { searchProfile },
     );
 
     result = result?.complexSearch?.works;

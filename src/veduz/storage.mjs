@@ -3,35 +3,37 @@ let username = "";
 let password = "";
 
 export async function saveBinary(data) {
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   const hashBase64 = btoa(String.fromCharCode(...hashArray))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=/g, '');
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "");
 
-  const url = webdavServer + 'files/' + hashBase64;
+  const url = webdavServer + "files/" + hashBase64;
 
   const checkResponse = await fetch(url, {
-    method: 'HEAD',
+    method: "HEAD",
     headers: {
-      Authorization: 'Basic ' + btoa(username + ':' + password)
-    }
+      Authorization: "Basic " + btoa(username + ":" + password),
+    },
   });
   if (checkResponse.ok) {
     return url;
   }
 
   const response = await fetch(url, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      Authorization: 'Basic ' + btoa(username + ':' + password)
+      Authorization: "Basic " + btoa(username + ":" + password),
     },
-    body: data
+    body: data,
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to save binary: ${response.status} ${response.statusText}`);
+    throw new Error(
+      `Failed to save binary: ${response.status} ${response.statusText}`,
+    );
   }
 
   return url;

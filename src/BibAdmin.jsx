@@ -13,8 +13,15 @@ function Setting({ label, value, onChange }) {
 }
 
 export function BibAdmin() {
-  const { currentDisplay, token, agency, username, password, loggedIn, searchProfile } =
-    useBibAdminsState((state) => state.ui);
+  const {
+    currentDisplay,
+    token,
+    agency,
+    username,
+    password,
+    loggedIn,
+    searchProfile,
+  } = useBibAdminsState((state) => state.ui);
   const {
     swapCarousel,
     setCurrentDisplay,
@@ -52,8 +59,11 @@ export function BibAdmin() {
           onChange={(e) => setUsernamePassword(username, e.target.value)}
         />
         {loggedIn ? (
-          <div>Logget ind, og <b>HUSKER brugenavn/kode</b>, så <b style={{color: "red"}}>husk at logge ud</b> (fjern koden herover).</div>
-
+          <div>
+            Logget ind, og <b>HUSKER brugenavn/kode</b>, så{" "}
+            <b style={{ color: "red" }}>husk at logge ud</b> (fjern koden
+            herover).
+          </div>
         ) : (
           <div>
             <b style={{ color: "red" }}>
@@ -89,12 +99,15 @@ export function BibAdmin() {
           <button onClick={addCarousel}>Tilføj Karrusel</button>
           {display.map((carousel, i) => (
             <div key={i}>
-              <hr style={{marginTop: 40, marginBottom: 40}}/>
-                <div style={{fontSize: 32}}>
-                  {i < display.length - 1 && <span onClick={() => swapCarousel(i, i+1)}>⬇️</span> }
-                  {" "}
-                  {i > 0 && <span onClick={() => swapCarousel(i, i-1)}>⬆️</span>}
-                </div>
+              <hr style={{ marginTop: 40, marginBottom: 40 }} />
+              <div style={{ fontSize: 32 }}>
+                {i < display.length - 1 && (
+                  <span onClick={() => swapCarousel(i, i + 1)}>⬇️</span>
+                )}{" "}
+                {i > 0 && (
+                  <span onClick={() => swapCarousel(i, i - 1)}>⬆️</span>
+                )}
+              </div>
               <div>
                 <label htmlFor={`title${i}`}>Overskrift:</label>
                 <input
@@ -111,7 +124,6 @@ export function BibAdmin() {
                   onChange={(e) => setQuery(i, e.target.value)}
                 />
               </div>
-
 
               <div
                 style={{
@@ -132,15 +144,38 @@ export function BibAdmin() {
 
               <div style={{ marginTop: "10px" }}>
                 {carousel.showcase ? (
-                  <div style={{outline: "1px solid black", margin: 0, padding: 10, borderRadius: 10}}>
+                  <div
+                    style={{
+                      outline: "1px solid black",
+                      margin: 0,
+                      padding: 10,
+                      borderRadius: 10,
+                    }}
+                  >
                     <h2>Showcase</h2>
-                    <button onClick={() => setShowcase(i, null)}>Fjern Showcase</button>
+                    <button onClick={() => setShowcase(i, null)}>
+                      Fjern Showcase
+                    </button>
                     <div>
-                      <label htmlFor={`showcaseImage${i}`}>Billede (url eller uploadet billede):</label>
-                      <input 
-                        type="text" 
-                        value={carousel.showcase?.image && !carousel.showcase?.image?.startsWith('https://webdav.bibdata.dk') ? carousel.showcase.image : ''} 
-                        onChange={(e) => setShowcase(i, { ...carousel.showcase, image: e.target.value })} 
+                      <label htmlFor={`showcaseImage${i}`}>
+                        Billede (url eller uploadet billede):
+                      </label>
+                      <input
+                        type="text"
+                        value={
+                          carousel.showcase?.image &&
+                          !carousel.showcase?.image?.startsWith(
+                            "https://webdav.bibdata.dk",
+                          )
+                            ? carousel.showcase.image
+                            : ""
+                        }
+                        onChange={(e) =>
+                          setShowcase(i, {
+                            ...carousel.showcase,
+                            image: e.target.value,
+                          })
+                        }
                       />
                       <input
                         id={`showcaseImage${i}`}
@@ -152,19 +187,22 @@ export function BibAdmin() {
                             try {
                               const arrayBuffer = await file.arrayBuffer();
                               const url = await saveBinary(arrayBuffer);
-                              setShowcase(i, { ...carousel.showcase, image: url });
+                              setShowcase(i, {
+                                ...carousel.showcase,
+                                image: url,
+                              });
                             } catch (error) {
-                              console.error('Failed to upload image:', error);
-                              alert('Failed to upload image');
+                              console.error("Failed to upload image:", error);
+                              alert("Failed to upload image");
                             }
                           }
                         }}
                       />
                       {carousel.showcase.image && (
-                        <img 
-                          src={carousel.showcase.image} 
-                          alt="Preview" 
-                          style={{ maxWidth: '200px', marginTop: '10px' }} 
+                        <img
+                          src={carousel.showcase.image}
+                          alt="Preview"
+                          style={{ maxWidth: "200px", marginTop: "10px" }}
                         />
                       )}
                     </div>
@@ -172,57 +210,106 @@ export function BibAdmin() {
                       <label htmlFor={`showcaseDesc${i}`}>Beskrivelse:</label>
                       <textarea
                         id={`showcaseDesc${i}`}
-                        value={carousel.showcase.markdown || ''}
-                        onChange={(e) => setShowcase(i, { ...carousel.showcase, markdown: e.target.value })}
+                        value={carousel.showcase.markdown || ""}
+                        onChange={(e) =>
+                          setShowcase(i, {
+                            ...carousel.showcase,
+                            markdown: e.target.value,
+                          })
+                        }
                         rows={4}
-                        style={{ width: '95%', resize: 'vertical', fontFamily: 'sans-serif' }}
+                        style={{
+                          width: "95%",
+                          resize: "vertical",
+                          fontFamily: "sans-serif",
+                        }}
                       />
                     </div>
                     <div>
                       <label htmlFor={`showcaseUrl${i}`}>URL:</label>
-                      {carousel.showcase.url && !/https?:\/\//i.test(carousel.showcase.url) && <div style={{color: "red", fontWeight: "bold"}}>Advarsel: normalt starter url'en med https:// eller lignende</div>}
-                        <input
-                          id={`showcaseUrl${i}`}
-                        value={carousel.showcase.url || ''}
-                        onChange={(e) => setShowcase(i, { ...carousel.showcase, url: e.target.value })}
+                      {carousel.showcase.url &&
+                        !/https?:\/\//i.test(carousel.showcase.url) && (
+                          <div style={{ color: "red", fontWeight: "bold" }}>
+                            Advarsel: normalt starter url'en med https:// eller
+                            lignende
+                          </div>
+                        )}
+                      <input
+                        id={`showcaseUrl${i}`}
+                        value={carousel.showcase.url || ""}
+                        onChange={(e) =>
+                          setShowcase(i, {
+                            ...carousel.showcase,
+                            url: e.target.value,
+                          })
+                        }
                       />
                     </div>
-              <div>
-                <label htmlFor={`date${i}`}>Udløbsdato:</label>
-                <div style={{display: "flex", flexDirection: "row"}}>
-                  <input
-                    type="checkbox"
-                    id={`expires${i}`}
-                    checked={!!carousel.showcase.expires}
-                    onChange={(e) => setShowcase(i, { ...carousel.showcase, expires: e.target.checked }) }
-                  />
-                <input
-                  id={`date${i}`}
-                  type="date"
-                  value={carousel.showcase.expirydate || ''}
-                  onChange={(e) => {
-                    console.log("expiry", e.target.value,
-                      carousel.showcase.expires,
-                      carousel.showcase.expirydate
-                    );
-                    setShowcase(i, { ...carousel.showcase, expirydate: e.target.value })}}
-
-                />
-                </div>
-              </div>
+                    <div>
+                      <label htmlFor={`date${i}`}>Udløbsdato:</label>
+                      <div style={{ display: "flex", flexDirection: "row" }}>
+                        <input
+                          type="checkbox"
+                          id={`expires${i}`}
+                          checked={!!carousel.showcase.expires}
+                          onChange={(e) =>
+                            setShowcase(i, {
+                              ...carousel.showcase,
+                              expires: e.target.checked,
+                            })
+                          }
+                        />
+                        <input
+                          id={`date${i}`}
+                          type="date"
+                          value={carousel.showcase.expirydate || ""}
+                          onChange={(e) => {
+                            console.log(
+                              "expiry",
+                              e.target.value,
+                              carousel.showcase.expires,
+                              carousel.showcase.expirydate,
+                            );
+                            setShowcase(i, {
+                              ...carousel.showcase,
+                              expirydate: e.target.value,
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
                   </div>
                 ) : (
-                  <button onClick={() => setShowcase(i, { image: '', title: '', markdown: '', url: '' })}>
+                  <button
+                    onClick={() =>
+                      setShowcase(i, {
+                        image: "",
+                        title: "",
+                        markdown: "",
+                        url: "",
+                      })
+                    }
+                  >
                     Tilføj Showcase
                   </button>
                 )}
               </div>
-              
-              <div style={{marginTop: 20}}>Preview:</div>
-              <div style={{backgroundColor: "black", color: "white", overflow: "auto", borderRadius: 10}}>
-              <Carousel works={carousel.results} title={carousel.title} showcase={carousel.showcase} /> 
-              </div>
 
+              <div style={{ marginTop: 20 }}>Preview:</div>
+              <div
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  overflow: "auto",
+                  borderRadius: 10,
+                }}
+              >
+                <Carousel
+                  works={carousel.results}
+                  title={carousel.title}
+                  showcase={carousel.showcase}
+                />
+              </div>
             </div>
           ))}
         </div>

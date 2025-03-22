@@ -6,14 +6,13 @@ import { WorkOverlay } from "./WorkOverlay";
 import { Carousel } from "./Carousel";
 import { server } from "./veduz/veduz.mjs";
 
-
 let timer = Date.now();
 function resetTimer() {
   timer = Date.now();
 }
 setInterval(() => {
   if (Date.now() - timer > 1000 * 60 * 5) {
-    if(location.search !== "?admin") location.reload();
+    if (location.search !== "?admin") location.reload();
   }
 }, 500);
 function BibDisplay({ carousels }) {
@@ -29,8 +28,12 @@ function BibDisplay({ carousels }) {
         <WorkOverlay
           currentWork={currentWork}
           hideWork={() => {
-            server.log("BIBDISPLAY_HIDE_WORK_" + location.search.slice(1), currentWork.pid || currentWork.url);
-            showWork(null)}}
+            server.log(
+              "BIBDISPLAY_HIDE_WORK_" + location.search.slice(1),
+              currentWork.pid || currentWork.url,
+            );
+            showWork(null);
+          }}
         />
       )}
       {carousels.map((carousel) => (
@@ -38,8 +41,11 @@ function BibDisplay({ carousels }) {
           works={carousel.results}
           title={carousel.title}
           showWork={(work) => {
-            server.log("BIBDISPLAY_SHOW_WORK_" + location.search.slice(1), work.pid || work.url);
-            showWork(work)
+            server.log(
+              "BIBDISPLAY_SHOW_WORK_" + location.search.slice(1),
+              work.pid || work.url,
+            );
+            showWork(work);
           }}
           showcase={carousel.showcase}
         />
@@ -51,11 +57,11 @@ function BibDisplay({ carousels }) {
 export async function bibdisplay() {
   let displayName = location.search.slice(1);
   let carousels = [];
-(async () => {
-  server.log("BIBDISPLAY_ALIVE_" + location.search.slice(1), displayName);
-  let work = await server.getWork("870970-basis:48953786");
-  await sleep(60000);
-})();
+  (async () => {
+    server.log("BIBDISPLAY_ALIVE_" + location.search.slice(1), displayName);
+    let work = await server.getWork("870970-basis:48953786");
+    await sleep(60000);
+  })();
 
   try {
     carousels = await loadJSON("displays/" + displayName + ".json");
@@ -107,7 +113,7 @@ bib-admin {
 
 let lastInteraction = 0;
 function hadInteraction() {
-  if(Date.now() > lastInteraction +1000) {
+  if (Date.now() > lastInteraction + 1000) {
     server.log("BIBDISPLAY_INTERACTION_" + location.search.slice(1));
     lastInteraction = Date.now();
   }
@@ -116,6 +122,3 @@ function hadInteraction() {
 window.addEventListener("pointerdown", hadInteraction);
 window.addEventListener("pointermove", hadInteraction);
 window.addEventListener("scroll", hadInteraction);
-
-
-

@@ -28,7 +28,7 @@ div {
         </style>
 
         <BibAdmin />
-      </React.StrictMode>
+      </React.StrictMode>,
     );
   } else {
     bibdisplay();

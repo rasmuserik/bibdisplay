@@ -10,21 +10,21 @@ const useBibAdminsState = create((set, get) => {
   const password = localStorage.getItem("bibadmin-password") || "";
   const currentDisplay = localStorage.getItem("bibadmin-currentDisplay") || "";
   if (username && password) {
-    login(username, password).then(async loggedIn => {
+    login(username, password).then(async (loggedIn) => {
       console.log("loggedIn", loggedIn);
-      set(state => ({ ui: { ...state.ui, loggedIn } }));
-      if (!loggedIn && await login(username, password)) {
-        set(state => ({ ui: { ...state.ui, loggedIn: true } }));
+      set((state) => ({ ui: { ...state.ui, loggedIn } }));
+      if (!loggedIn && (await login(username, password))) {
+        set((state) => ({ ui: { ...state.ui, loggedIn: true } }));
       }
       syncFromServer(currentDisplay, set, get);
     });
   }
 
-  return ({
+  return {
     display: [],
     ui: {
       webdavServer: "",
-      agency: "715700", 
+      agency: "715700",
       currentDisplay,
       loggedIn: false,
       username,
@@ -37,7 +37,10 @@ const useBibAdminsState = create((set, get) => {
       swapCarousel: (index1, index2) => {
         set((state) => {
           let display = [...state.display];
-          [display[index1], display[index2]] = [display[index2], display[index1]];
+          [display[index1], display[index2]] = [
+            display[index2],
+            display[index1],
+          ];
           return { display };
         });
       },
@@ -104,10 +107,16 @@ const useBibAdminsState = create((set, get) => {
         let prevDisplay = get().display?.[index];
         await sleep(500);
         if (get().display?.[index] !== prevDisplay) return;
-        let results = await search({ cql: query, agency: get().ui.agency, token: get().ui.token, searchProfile: get().ui.searchProfile });
+        let results = await search({
+          cql: query,
+          agency: get().ui.agency,
+          token: get().ui.token,
+          searchProfile: get().ui.searchProfile,
+        });
         set((state) => {
           let display = [...state.display];
-          if (display?.[index] === prevDisplay) display[index].results = results;
+          if (display?.[index] === prevDisplay)
+            display[index].results = results;
           return { display };
         });
         syncToServer(set, get);
@@ -121,13 +130,19 @@ const useBibAdminsState = create((set, get) => {
         set((state) => ({
           display: [
             ...state.display,
-            { title: "", query: "", shuffle: false, results: [], maxResults: 20 },
+            {
+              title: "",
+              query: "",
+              shuffle: false,
+              results: [],
+              maxResults: 20,
+            },
           ],
         }));
         syncToServer(set, get);
       },
     },
-  });
+  };
 });
 
 async function syncToServer(set, get) {
