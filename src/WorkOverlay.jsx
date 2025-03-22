@@ -1,6 +1,7 @@
 import QRCode from "react-qr-code";
 import React from "react";
 import { marked } from "marked";
+
 export function WorkOverlay({ currentWork, hideWork }) {
     let work = currentWork;
     return (
