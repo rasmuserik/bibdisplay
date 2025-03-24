@@ -7,7 +7,7 @@ export function DisplayStats() {
   React.useEffect(() => {
     (async () => {
       console.log(await server.fns());
-      let displays = {total: 0};
+      let displays = {total: Infinity};
       let entries = [...(await server.stat_entries("CLIENT_BIBDISPLAY")), ...(await server.stat_entries("REDIRECT_BIBDISPLAY"))];
       let stats = {dates: {}};
       let startDate = (new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)).toISOString().slice(0, 10);
@@ -29,9 +29,9 @@ export function DisplayStats() {
         if(!display || display === "test" || display === "stats" || display === "admin") continue;
         for(let [timestamp, count]of await server.stat_count_min_max_sum(entry)) {
           let date = timestamp.slice(0, 10);
-          console.log(date, startDate);
           if(date < startDate) continue;
-          displays[display] = (displays[display] ?? 0) + 1;
+          displays[display] = (displays[display] ?? 0) + ({interaction: 1, show_work: 10, redirect: 100}[type] ?? 0) * count;
+          console.log(displays[display]);
           stats.dates[date] ??= {};
           stats.dates[date][type] ??= {};
           stats.dates[date][type][display] = (stats.dates[date][type][display] ?? 0) + count;
@@ -39,7 +39,8 @@ export function DisplayStats() {
         }
       }
       stats.displays = Object.keys(displays);
-      stats.displays.sort((a, b) => displays[a] - displays[b]);
+      console.log(displays)
+      stats.displays.sort((a, b) => displays[b] - displays[a]);
       setStats(stats);
     })();
   }, []); 
@@ -67,7 +68,7 @@ export function DisplayStats() {
         .cell {
          display: inline-block;
          width: 130px;
-         height: 20px;
+         height: 24px;
          text-align: right;
         }
         
@@ -85,13 +86,13 @@ export function DisplayStats() {
               ))}
             </div>
             <div key={date + "Interactions"} className="row">
-              <div className="cell">Berøring</div>
+              <div className="cell">Berøring/scroll</div>
               {stats.displays.map((display) => (
                 <div className="cell">{stats.dates[date].interaction?.[display]}</div>
               ))}
             </div>
             <div key={date + "Show Works"} className="row">
-              <div className="cell">Klik / popup</div>
+              <div className="cell">Klik/popups</div>
               {stats.displays.map((display) => (
                 <div className="cell">{stats.dates[date].show_work?.[display]}</div>
               ))}
