@@ -3,9 +3,24 @@ import { bibdisplay } from "./bibdisplay";
 import ReactDOM from "react-dom/client";
 import React from "react";
 import { BibAdmin } from "./BibAdmin";
+import { DisplayStats } from "./DisplayStats";
 
 async function main() {
-  if (location.search === "?admin") {
+  if (location.search === "?stats") {
+    ReactDOM.createRoot(document.getElementById("root")).render(
+      <React.StrictMode>
+        <style>
+          {`
+body {
+  font-family: sans-serif;
+  margin: 3ex;
+}
+`}
+        </style>
+        <DisplayStats />
+      </React.StrictMode>
+    );
+  } else if (location.search === "?admin") {
     ReactDOM.createRoot(document.getElementById("root")).render(
       <React.StrictMode>
         <style>
