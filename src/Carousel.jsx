@@ -57,7 +57,7 @@ export function Carousel({ works, title, showWork, showcase }) {
                 marginTop: 0,
                 paddingTop: 0,
                 width: showcase.fullwidth ? "95%" : "auto",
-                maxWidth: "95%"
+                maxWidth: "95%",
               }}
               className="showcase"
               onClick={() => showcase.url && showWork(showcase)}
@@ -92,7 +92,7 @@ export function Carousel({ works, title, showWork, showcase }) {
                   __html: marked(showcase.markdown || "", {
                     sanitize: true,
                     gfm: true,
-                    breaks: true
+                    breaks: true,
                   }),
                 }}
               ></div>

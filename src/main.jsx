@@ -18,7 +18,7 @@ body {
 `}
         </style>
         <DisplayStats />
-      </React.StrictMode>
+      </React.StrictMode>,
     );
   } else if (location.search === "?admin") {
     ReactDOM.createRoot(document.getElementById("root")).render(

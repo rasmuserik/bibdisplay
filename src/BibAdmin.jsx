@@ -116,9 +116,13 @@ export function BibAdmin() {
                 {i > 0 && (
                   <span onClick={() => swapCarousel(i, i - 1)}>⬆️</span>
                 )}{" "}
-                <span 
+                <span
                   onClick={() => {
-                    if (window.confirm("Er du sikker på at du vil slette denne karrusel?")) {
+                    if (
+                      window.confirm(
+                        "Er du sikker på at du vil slette denne karrusel?",
+                      )
+                    ) {
                       deleteCarousel(i);
                     }
                   }}
@@ -266,7 +270,13 @@ export function BibAdmin() {
                     </div>
                     <div>
                       <label htmlFor={`date${i}`}>Udløbsdato:</label>
-                      <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          gap: "10px",
+                        }}
+                      >
                         <input
                           type="checkbox"
                           id={`expires${i}`}
