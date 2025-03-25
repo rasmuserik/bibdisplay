@@ -1,22 +1,29 @@
 import React from "react";
 import { server } from "./veduz/veduz.mjs";
+import { sleep } from "./veduz/util.mjs";
 
 export function DisplayStats() {
-  const [stats, setStats] = React.useState(null);
+  const [stats, setStats] = React.useState("...");
 
   React.useEffect(() => {
     (async () => {
       console.log(await server.fns());
       let displays = { total: Infinity };
       let entries = [
-        ...(await server.stat_entries("CLIENT_BIBDISPLAY")),
-        ...(await server.stat_entries("REDIRECT_BIBDISPLAY")),
+        ...(await server.stat_entries("CLIENT_BIBDISPLAY_INTERACTION_")),
+        ...(await server.stat_entries("CLIENT_BIBDISPLAY_SHOW_WORK_")),
+        ...(await server.stat_entries("REDIRECT_BIBDISPLAY_")),
       ];
+      console.log(entries);
       let stats = { dates: {} };
       let startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
         .toISOString()
         .slice(0, 10);
+      let i = 0;
       for (let entry of entries) {
+        ++i;
+        setStats(` ${i} / ${entries.length+1}`);
+        await sleep(0);
         let type, display;
         if (entry.startsWith("CLIENT_BIBDISPLAY_INTERACTION_")) {
           type = "interaction";
@@ -42,20 +49,29 @@ export function DisplayStats() {
           entry,
         )) {
           let date = timestamp.slice(0, 10);
-          if (date < startDate) continue;
+          if (date <= startDate) continue;
           displays[display] =
             (displays[display] ?? 0) +
-            ({ interaction: 1, show_work: 10, redirect: 100 }[type] ?? 0) *
+            ({ interaction: 1, show_work: 100, redirect: 10000 }[type] ?? 0) *
               count;
-          console.log(displays[display]);
+
           stats.dates[date] ??= {};
           stats.dates[date][type] ??= {};
           stats.dates[date][type][display] =
             (stats.dates[date][type][display] ?? 0) + count;
           stats.dates[date][type].total =
             (stats.dates[date][type].total ?? 0) + count;
+          
+          const totalLabel = "30 dage"
+          stats.dates[totalLabel] ??= {};
+          stats.dates[totalLabel][type] ??= {};
+          stats.dates[totalLabel][type][display] =
+            (stats.dates[totalLabel][type][display] ?? 0) + count;
+          stats.dates[totalLabel][type].total =
+            (stats.dates[totalLabel][type].total ?? 0) + count;
         }
       }
+
       stats.displays = Object.keys(displays);
       console.log(displays);
       stats.displays.sort((a, b) => displays[b] - displays[a]);
@@ -63,7 +79,7 @@ export function DisplayStats() {
     })();
   }, []);
 
-  if (!stats) return <div>Loading...</div>;
+  if (!stats || typeof stats === "string") return <div>Loading{stats}</div>;
 
   // This console.log will run on every render
   console.log(stats);
