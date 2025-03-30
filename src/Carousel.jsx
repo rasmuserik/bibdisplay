@@ -82,7 +82,7 @@ export function Carousel({ works, title, showWork, showcase }) {
                 style={{
                   verticalAlign: "top",
                   display: "inline-block",
-                  maxWidth: "60%",
+                  // maxWidth: "60%",
                   marginLeft: 40,
                   marginRight: 40,
                   fontFamily: "sans-serif",
