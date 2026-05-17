@@ -10,8 +10,8 @@ export function DisplayStats() {
       console.log(await server.fns());
       let displays = { total: Infinity };
       let entries = [
-        ...(await server.stat_entries("CLIENT_BIBDISPLAY_INTERACTION_")),
-        ...(await server.stat_entries("CLIENT_BIBDISPLAY_SHOW_WORK_")),
+        ...(await server.stat_entries("BIBDISPLAY_INTERACTION_")),
+        ...(await server.stat_entries("BIBDISPLAY_SHOW_WORK_")),
         ...(await server.stat_entries("REDIRECT_BIBDISPLAY_")),
       ];
       console.log(entries);
@@ -25,12 +25,12 @@ export function DisplayStats() {
         setStats(` ${i} / ${entries.length+1}`);
         await sleep(0);
         let type, display;
-        if (entry.startsWith("CLIENT_BIBDISPLAY_INTERACTION_")) {
+        if (entry.startsWith("BIBDISPLAY_INTERACTION_")) {
           type = "interaction";
-          display = entry.slice("CLIENT_BIBDISPLAY_INTERACTION_".length);
-        } else if (entry.startsWith("CLIENT_BIBDISPLAY_SHOW_WORK_")) {
+          display = entry.slice("BIBDISPLAY_INTERACTION_".length);
+        } else if (entry.startsWith("BIBDISPLAY_SHOW_WORK_")) {
           type = "show_work";
-          display = entry.slice("CLIENT_BIBDISPLAY_SHOW_WORK_".length);
+          display = entry.slice("BIBDISPLAY_SHOW_WORK_".length);
         } else if (entry.startsWith("REDIRECT_BIBDISPLAY_")) {
           type = "redirect";
           display = entry.slice("REDIRECT_BIBDISPLAY_".length);
